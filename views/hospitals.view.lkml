@@ -43,6 +43,7 @@ view: hospitals {
 
   dimension: county {
     type: string
+    map_layer_name: us_counties_fips
     sql: ${TABLE}.COUNTY ;;
   }
 
@@ -127,13 +128,21 @@ view: hospitals {
   }
 
   dimension: n_lat {
+    hidden: yes
     type: number
     sql: ${TABLE}.N_LAT ;;
   }
 
   dimension: n_lcode {
+    hidden: yes
     type: string
     sql: ${TABLE}.N_LCODE ;;
+  }
+
+  dimension: location {
+    type: location
+    sql_latitude: ${n_lat} ;;
+    sql_longitude: ${n_lcode} ;;
   }
 
   dimension: n_lon {
@@ -183,6 +192,7 @@ view: hospitals {
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.STATE ;;
   }
 
