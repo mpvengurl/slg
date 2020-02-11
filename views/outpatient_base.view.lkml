@@ -1,57 +1,65 @@
 view: outpatient_base {
   sql_table_name: sc_hhs_casestudy_202002.outpatient_base ;;
+  label: "Outpatient"
 
-  dimension_group: _metadata__timestamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}._metadata__timestamp AS TIMESTAMP) ;;
-  }
-
-  dimension: _metadata__uuid {
-    type: string
-    sql: ${TABLE}._metadata__uuid ;;
-  }
-
-  dimension_group: _metadata_file_modified_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: CAST(${TABLE}._metadata_file_modified_ts AS TIMESTAMP) ;;
-  }
-
-  dimension: _metadata_file_name {
-    type: string
-    sql: ${TABLE}._metadata_file_name ;;
-  }
-
-  dimension: _metadata_line_number {
-    type: number
-    sql: ${TABLE}._metadata_line_number ;;
-  }
-
-  dimension: _metadata_total_rows {
-    type: number
-    sql: ${TABLE}._metadata_total_rows ;;
-  }
+#   dimension_group: _metadata__timestamp {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: CAST(${TABLE}._metadata__timestamp AS TIMESTAMP) ;;
+#   }
+#
+#   dimension: _metadata__uuid {
+#     type: string
+#     sql: ${TABLE}._metadata__uuid ;;
+#   }
+#
+#   dimension_group: _metadata_file_modified_ts {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: CAST(${TABLE}._metadata_file_modified_ts AS TIMESTAMP) ;;
+#   }
+#
+#   dimension: _metadata_file_name {
+#     type: string
+#     sql: ${TABLE}._metadata_file_name ;;
+#   }
+#
+#   dimension: _metadata_line_number {
+#     type: number
+#     sql: ${TABLE}._metadata_line_number ;;
+#   }
+#
+#   dimension: _metadata_total_rows {
+#     type: number
+#     sql: ${TABLE}._metadata_total_rows ;;
+#   }
 
   dimension: ambulance_amount {
     type: number
     sql: ${TABLE}.AMBULANCE_AMOUNT ;;
+  }
+
+  measure: sum_ambulance_amount {
+    label: "Total Ambulance Amount"
+    type: sum
+    value_format_name: usd_0
+    sql: ${ambulance_amount} ;;
   }
 
   dimension: anes_amount {
@@ -82,6 +90,13 @@ view: outpatient_base {
   dimension: clinic_amount {
     type: number
     sql: ${TABLE}.CLINIC_AMOUNT ;;
+  }
+
+  measure: sum_clinic_amount {
+    label: "Total Clinic Amount"
+    type: sum
+    value_format_name: usd_0
+    sql: ${clinic_amount} ;;
   }
 
   dimension: condition_code_1 {
@@ -666,6 +681,6 @@ view: outpatient_base {
 
   measure: count {
     type: count
-    drill_fields: [_metadata_file_name, provider_name]
+#     drill_fields: [_metadata_file_name, provider_name]
   }
 }
