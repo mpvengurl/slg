@@ -3,16 +3,25 @@ label: "Texas Department of Health and Human Services"
 
 include: "/views/*.view.lkml"                # include all views in the views/ folder in this project
 
+
+datagroup: infinite {
+  sql_trigger: SELECT 1 ;;
+}
+
+
 explore: hospitals {
+  persist_with: infinite
+
   description: "Learn more about your hosptials."
 }
 
 
 explore: out_base {
   from: outpatient_base
+  persist_with: infinite
 
   label: "Outpatient"
-  description: "Outpatient Information and Charges"
+  description: "Outpatient information and charges"
 
   join: out_charge {
     from: outpatient_charges
