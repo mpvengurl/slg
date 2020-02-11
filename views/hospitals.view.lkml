@@ -17,6 +17,13 @@ view: hospitals {
     }
   }
 
+  dimension: address_street_view {
+    type: string
+    sql: CONCAT(${address}, ', ', ${city}, ', ', ${state}, ' ', ${zip} ) ;;
+    # example from Kabalan G. from the retail demoo of surfacing the address as a screenshot of street view to be used in a single tile viz
+    html: <img src="https://maps.googleapis.com/maps/api/streetview?size=200x113&location={{value | encode_uri}}&fov=120&key=AIzaSyCpNqLNfBtd1iw0UdeKwv9kORpCFRhNG4o" ;;
+  }
+
   dimension: linked_address {
     hidden: yes
     type: string
@@ -288,6 +295,7 @@ view: hospitals {
   set: hospital_info {
     fields: [
       name
+      , address_street_view
       , address_complete
       , phone_formatted
       , sum_total_beds
