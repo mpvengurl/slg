@@ -11,9 +11,15 @@ view: hospitals {
     label: "Address"
     type: string
     sql: CONCAT(${address}, ', ', ${city}, ', ', ${state}, ' ', ${zip} ) ;;
+    # The commented out link would be used to link out to street view, but not sure that's the application for this
+#     link: {
+#       label: "Hospital Street View"
+#       url: "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{n_lat._value}},{{n_lon._value}}&heading=-45&pitch=15&fov=80"
+#     }
     link: {
-      label: "Hospital Street View"
-      url: "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{n_lat._value}},{{n_lon._value}}&heading=-45&pitch=15&fov=80"
+      label: "Route on Google Maps"
+      icon_url: "http://maps.google.com/mapfiles/ms/micons/hospitals.png"
+      url: "https://www.google.com/maps/dir/?api=1&destination={{value | url_encode }}"
     }
   }
 
