@@ -4,6 +4,21 @@ view: hospitals {
   dimension: address {
     type: string
     sql: ${TABLE}.ADDRESS ;;
+    link: {
+      label: "Hospital Street View"
+      url: "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{n_lat._value}},{{n_lon._value}}&heading=-45&pitch=15&fov=80"
+    }
+  }
+
+  dimension: linked_address {
+    hidden: yes
+    type: string
+    sql: CONCAT(REPLACE(${address},' ', '+'), '+', REPLACE(${city}, ' ', '+')) ;;
+  }
+
+  dimension: linked_name {
+    hidden: yes
+    sql: REPLACE(${name}, ' ', '+') ;;
   }
 
   dimension: antepartum {
@@ -97,6 +112,13 @@ view: hospitals {
     sql: ${TABLE}.LDRP_BEDS ;;
   }
 
+  measure: sum_ldrp_beds {
+    label: "Total LDRP Beds"
+    description: "Total number of Labor, Delivery, Recovery, Postpartum beds at the hospital"
+    type: sum
+    sql: ${ldrp_beds} ;;
+  }
+
   dimension: license_nu {
     type: number
     sql: ${TABLE}.LICENSE_NU ;;
@@ -139,15 +161,15 @@ view: hospitals {
     sql: ${TABLE}.N_LCODE ;;
   }
 
-  dimension: location {
-    type: location
-    sql_latitude: ${n_lat} ;;
-    sql_longitude: ${n_lcode} ;;
-  }
-
   dimension: n_lon {
     type: number
     sql: ${TABLE}.N_LON ;;
+  }
+
+  dimension: location {
+    type: location
+    sql_latitude: ${n_lat} ;;
+    sql_longitude: ${n_lon} ;;
   }
 
   dimension: n_mcode {
@@ -172,7 +194,9 @@ view: hospitals {
 
   dimension: phone {
     type: number
+    tags: ["phone"]
     sql: ${TABLE}.PHONE ;;
+
   }
 
   dimension: postpartum {
@@ -183,6 +207,12 @@ view: hospitals {
   dimension: psych_beds {
     type: number
     sql: ${TABLE}.PSYCH_BEDS ;;
+  }
+
+  measure: sum_psych_beds {
+    label: "Total Psychiatric Beds"
+    type: sum
+    sql: ${psych_beds} ;;
   }
 
   dimension: skilled_nu {
@@ -196,9 +226,15 @@ view: hospitals {
     sql: ${TABLE}.STATE ;;
   }
 
-  dimension: total_beds {
+  dimension: beds {
     type: number
     sql: ${TABLE}.TOTAL_BEDS ;;
+  }
+
+  measure: sum_total_beds {
+    label: "Total Beds"
+    type: sum
+    sql: ${beds} ;;
   }
 
   dimension: universal_ {
@@ -213,6 +249,15 @@ view: hospitals {
 
   measure: count {
     type: count
-    drill_fields: [name]
+    drill_fields: [hospital_info*]
+  }
+
+  set: hospital_info {
+    fields: [
+      name
+      , phone
+      , address
+      , sum_total_beds
+    ]
   }
 }
