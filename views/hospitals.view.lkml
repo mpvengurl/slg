@@ -34,6 +34,7 @@ view: hospitals {
   }
 
   dimension: ccn {
+    label: "CCN"
     type: number
     sql: ${TABLE}.CCN ;;
   }
