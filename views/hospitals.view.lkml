@@ -289,7 +289,7 @@ view: hospitals {
 
   dimension: zip {
     type: zipcode
-    sql: ${TABLE}.ZIP ;;
+    sql: CAST(${TABLE}.ZIP AS string) ;;
     drill_fields: [hospital_info*]
   }
 
