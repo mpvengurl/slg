@@ -2,8 +2,15 @@ view: hospitals {
   sql_table_name: sc_hhs_casestudy_202002.hospitals ;;
 
   dimension: address {
+    hidden: yes
     type: string
     sql: ${TABLE}.ADDRESS ;;
+  }
+
+  dimension: address_complete {
+    label: "Address"
+    type: string
+    sql: CONCAT(${address}, ', ', ${city}, ', ', ${state}, ' ', ${zip} ) ;;
     link: {
       label: "Hospital Street View"
       url: "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{n_lat._value}},{{n_lon._value}}&heading=-45&pitch=15&fov=80"
@@ -62,7 +69,7 @@ view: hospitals {
     sql: ${TABLE}.COUNTY ;;
   }
 
-  dimension: designatio {
+  dimension: designation {
     type: string
     sql: ${TABLE}.DESIGNATIO ;;
   }
@@ -187,16 +194,28 @@ view: hospitals {
     sql: ${TABLE}.NICU_BEDS ;;
   }
 
+  measure: sum_nicu_beds {
+    label: "Total NICO Beds"
+    type: sum
+    sql: ${nicu_beds} ;;
+  }
+
   dimension: pediatric_ {
     type: string
     sql: ${TABLE}.PEDIATRIC_ ;;
   }
 
   dimension: phone {
-    type: number
-    tags: ["phone"]
-    sql: ${TABLE}.PHONE ;;
+    hidden: yes
+    type: string
+    sql: CAST(${TABLE}.PHONE AS string) ;;
+  }
 
+  dimension: phone_formatted {
+    label: "Phone Number"
+    type: string
+    tags: ["phone"]
+    sql: CONCAT( SUBSTR(${phone}, 0, 3) , '-', SUBSTR(${phone}, 4, 3) , '-', SUBSTR(${phone}, 7, 4)) ;;
   }
 
   dimension: postpartum {
@@ -235,6 +254,18 @@ view: hospitals {
     label: "Total Beds"
     type: sum
     sql: ${beds} ;;
+    drill_fields: [beds_info*]
+  }
+
+  dimension: general_beds {
+    type: number
+    sql: ${beds} - (${ldrp_beds} + ${nicu_beds} + ${psych_beds}) ;;
+  }
+
+  measure: sum_general_beds {
+    label: "Total General Beds"
+    type: sum
+    sql: ${general_beds} ;;
   }
 
   dimension: universal_ {
@@ -245,6 +276,7 @@ view: hospitals {
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.ZIP ;;
+    drill_fields: [hospital_info*]
   }
 
   measure: count {
@@ -255,9 +287,18 @@ view: hospitals {
   set: hospital_info {
     fields: [
       name
-      , phone
-      , address
+      , address_complete
+      , phone_formatted
       , sum_total_beds
     ]
+  }
+
+  set: beds_info {
+    fields: [
+      sum_general_beds
+      , sum_ldrp_beds
+      , sum_psych_beds
+      , sum_nicu_beds
+      ]
   }
 }
