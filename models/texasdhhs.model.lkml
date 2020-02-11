@@ -6,3 +6,9 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 explore: hospitals {
   description: "Learn more about your hosptials."
 }
+
+
+explore: outpatient_base {
+  label: "Outpatient"
+  description: "Outpatient Information and Charges"
+}
