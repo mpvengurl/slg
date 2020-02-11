@@ -16,10 +16,12 @@ view: outpatient_base {
 #     sql: CAST(${TABLE}._metadata__timestamp AS TIMESTAMP) ;;
 #   }
 #
-#   dimension: _metadata__uuid {
-#     type: string
-#     sql: ${TABLE}._metadata__uuid ;;
-#   }
+  dimension: _metadata__uuid {
+    primary_key: yes
+    hidden: yes
+    type: string
+    sql: ${TABLE}._metadata__uuid ;;
+  }
 #
 #   dimension_group: _metadata_file_modified_ts {
 #     type: time
