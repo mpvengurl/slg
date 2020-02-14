@@ -101,41 +101,49 @@ view: outpatient_base {
   }
 
   dimension: condition_code_1 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_1 ;;
   }
 
   dimension: condition_code_2 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_2 ;;
   }
 
   dimension: condition_code_3 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_3 ;;
   }
 
   dimension: condition_code_4 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_4 ;;
   }
 
   dimension: condition_code_5 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_5 ;;
   }
 
   dimension: condition_code_6 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_6 ;;
   }
 
   dimension: condition_code_7 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_7 ;;
   }
 
   dimension: condition_code_8 {
+    group_label: "Condition Codes"
     type: string
     sql: ${TABLE}.CONDITION_CODE_8 ;;
   }
@@ -146,51 +154,61 @@ view: outpatient_base {
   }
 
   dimension: e_code_1 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_1 ;;
   }
 
   dimension: e_code_10 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_10 ;;
   }
 
   dimension: e_code_2 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_2 ;;
   }
 
   dimension: e_code_3 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_3 ;;
   }
 
   dimension: e_code_4 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_4 ;;
   }
 
   dimension: e_code_5 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_5 ;;
   }
 
   dimension: e_code_6 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_6 ;;
   }
 
   dimension: e_code_7 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_7 ;;
   }
 
   dimension: e_code_8 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_8 ;;
   }
 
   dimension: e_code_9 {
+    group_label: "E Code"
     type: string
     sql: ${TABLE}.E_CODE_9 ;;
   }
@@ -231,8 +249,30 @@ view: outpatient_base {
   }
 
   dimension: length_of_service {
-    type: string
-    sql: ${TABLE}.LENGTH_OF_SERVICE ;;
+    description: "Length of stay in days."
+    type: number
+    sql: CAST(CASE WHEN ${TABLE}.LENGTH_OF_SERVICE = '`' THEN NULL ELSE ${TABLE}.LENGTH_OF_SERVICE END AS NUMERIC) ;;
+  }
+
+  measure: sum_lenth_of_service {
+    label: "Total Length of Service"
+    description: "Total length of stay in days."
+    type: sum
+    sql: ${length_of_service} ;;
+  }
+
+  measure: avg_lenth_of_service {
+    label: "Average Length of Service"
+    description: "The mean length of stay in days."
+    type: average
+    value_format_name: decimal_2
+    sql: ${length_of_service} ;;
+  }
+
+  measure: med_length_of_service {
+    label: "Median Length of Service"
+    type: median
+    sql: ${length_of_service} ;;
   }
 
   dimension: lith_amount {
@@ -441,8 +481,9 @@ view: outpatient_base {
   }
 
   dimension: princ_diag_code {
+    label: "Principal Diagnosis Code"
     type: string
-    sql: ${TABLE}.PRINC_DIAG_CODE ;;
+    sql: CASE WHEN ${TABLE}.PRINC_DIAG_CODE = '' THEN NULL ELSE ${TABLE}.PRINC_DIAG_CODE END ;;
   }
 
   dimension: pro_fee_amount {
@@ -451,126 +492,151 @@ view: outpatient_base {
   }
 
   dimension: proc_code_1 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_1 ;;
   }
 
   dimension: proc_code_10 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_10 ;;
   }
 
   dimension: proc_code_11 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_11 ;;
   }
 
   dimension: proc_code_12 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_12 ;;
   }
 
   dimension: proc_code_13 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_13 ;;
   }
 
   dimension: proc_code_14 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_14 ;;
   }
 
   dimension: proc_code_15 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_15 ;;
   }
 
   dimension: proc_code_16 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_16 ;;
   }
 
   dimension: proc_code_17 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_17 ;;
   }
 
   dimension: proc_code_18 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_18 ;;
   }
 
   dimension: proc_code_19 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_19 ;;
   }
 
   dimension: proc_code_2 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_2 ;;
   }
 
   dimension: proc_code_20 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_20 ;;
   }
 
   dimension: proc_code_21 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_21 ;;
   }
 
   dimension: proc_code_22 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_22 ;;
   }
 
   dimension: proc_code_23 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_23 ;;
   }
 
   dimension: proc_code_24 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_24 ;;
   }
 
   dimension: proc_code_25 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_25 ;;
   }
 
   dimension: proc_code_3 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_3 ;;
   }
 
   dimension: proc_code_4 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_4 ;;
   }
 
   dimension: proc_code_5 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_5 ;;
   }
 
   dimension: proc_code_6 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_6 ;;
   }
 
   dimension: proc_code_7 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_7 ;;
   }
 
   dimension: proc_code_8 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_8 ;;
   }
 
   dimension: proc_code_9 {
+    group_label: "Procedure Code"
     type: string
     sql: ${TABLE}.PROC_CODE_9 ;;
   }
@@ -627,13 +693,36 @@ view: outpatient_base {
   }
 
   dimension: service_quarter {
+    hidden: yes
     type: string
     sql: ${TABLE}.SERVICE_QUARTER ;;
   }
 
-  dimension: sex_code {
+  dimension: service_quarter_formatted {
+    label: "Year and Quarter"
+    group_label: "Year and Quarter"
     type: string
-    sql: ${TABLE}.SEX_CODE ;;
+    sql: CONCAT(SUBSTR(${service_quarter}, 0, 4), ' - ', SUBSTR(${service_quarter}, 4, 2) ) ;;
+  }
+
+  dimension: year {
+    group_label: "Year and Quarter"
+    type: number
+    sql: CAST(SUBSTR(${service_quarter}, 0, 4) AS NUMERIC) ;;
+  }
+
+  dimension: quarter {
+    group_label: "Year and Quarter"
+    type: string
+    sql: SUBSTR(${service_quarter}, 4, 2) ;;
+  }
+
+  dimension: sex_code {
+    description: "Patient's gender."
+    type: string
+    sql: CASE WHEN ${TABLE}.SEX_CODE = '`' THEN NULL
+              WHEN ${TABLE}.SEX_CODE = '' THEN NULL
+              ELSE ${TABLE}.SEX_CODE END ;;
   }
 
   dimension: spec_unit {

@@ -31,7 +31,7 @@ view: drug_predictions {
 
       ORDER BY total_day_supply DESC
 
-      LIMIT 10
+      LIMIT 20
        ;;
   }
 
