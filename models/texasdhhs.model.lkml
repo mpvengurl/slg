@@ -2,7 +2,9 @@ connection: "texasdhhs_looker_bq"
 label: "Texas Department of Health and Human Services"
 
 include: "/views/*.view.lkml"                # include all views in the views/ folder in this project
-include: "/prediction_models/drug_predictions.view.lkml"
+include: "/prediction_models/drug_predictions.view.lkml" # include BQML view
+include: "/dashboards/Hospital_Pulse.dashboard.lookml" # include dashboard
+
 
 datagroup: infinite {
   sql_trigger: SELECT 1 ;;
