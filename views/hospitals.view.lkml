@@ -1,5 +1,5 @@
 view: hospitals {
-  sql_table_name: sc_hhs_casestudy_202002.hospitals ;;
+  sql_table_name: looker_hhs.hospitals ;;
 
   dimension: address {
     hidden: yes

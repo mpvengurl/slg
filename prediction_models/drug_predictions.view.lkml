@@ -1,37 +1,21 @@
 view: drug_predictions {
   derived_table: {
     sql: SELECT
-
-        drug_name, SUM(predicted_label) as total_day_supply, total_drug_cost
-
-      FROM
-
-        ml.PREDICT(MODEL `bqml_medicare.drug_model`, (
-
-      SELECT
-
-        npi, nppes_provider_last_org_name, nppes_provider_first_name, nppes_provider_state, specialty_description, drug_name, generic_name,
-
-      IFNULL(bene_count, 0) AS bene_count,
-
-      IFNULL(total_claim_count , 0) AS total_claim_count ,
-
-      IFNULL(total_drug_cost , 0) AS total_drug_cost ,
-
-      IFNULL(bene_count_ge65 , 0) AS bene_count_ge65 ,
-
-      IFNULL(total_30_day_fill_count , 0) AS total_30_day_fill_count
-
-      FROM
-
-      `bqml_medicare.drug_data` ))
-
-
-      GROUP BY drug_name, total_drug_cost
-
-      ORDER BY total_day_supply DESC
-
-      LIMIT 20
+            drug_name, SUM(predicted_label) as total_day_supply, total_drug_cost
+          FROM
+            ml.PREDICT(MODEL `looker_hhs.sample_drug_model`, (
+          SELECT
+            npi, nppes_provider_last_org_name, nppes_provider_first_name, nppes_provider_state, specialty_description, drug_name, generic_name,
+          IFNULL(bene_count, 0) AS bene_count,
+          IFNULL(total_claim_count , 0) AS total_claim_count ,
+          IFNULL(total_drug_cost , 0) AS total_drug_cost ,
+          IFNULL(bene_count_ge65 , 0) AS bene_count_ge65 ,
+          IFNULL(total_30_day_fill_count , 0) AS total_30_day_fill_count
+          FROM
+          `looker_hhs.drug_data` ))
+          GROUP BY drug_name, total_drug_cost
+          ORDER BY total_day_supply DESC
+          LIMIT 10
        ;;
   }
 
